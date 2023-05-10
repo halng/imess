@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "961777608724",
+    "project_id": "ltddnc-v2",
+    "storage_bucket": "ltddnc-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961777608724:android:874bc7802a64ff499d1f01",
+        "android_client_info": {
+          "package_name": "com.example.imess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961777608724-2ulcg2sek5378a4i6j9bq9uvhq7frs3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFQnGKfVZtViTo2dhfNpbo5N7Z7nXZqNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961777608724-2ulcg2sek5378a4i6j9bq9uvhq7frs3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
