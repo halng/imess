@@ -1,151 +1,95 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imess/common/utils/colors.dart';
-import 'sign_up_screen.dart';
-import 'package:imess/layout/tab_items.dart';
+import 'package:imess/common/utils/helper.dart';
+import 'package:imess/common/widgets/button_custom.dart';
+import 'package:imess/feat/auth/controller/auth_controller.dart';
 
-import 'package:imess/common/widgets/widget.dart';
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
+  static const routeName = '/login-screen';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final phoneController = TextEditingController();
+  Country? country;
 
   @override
   void dispose() {
     super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    phoneController.dispose();
   }
 
-  void loginUser() async {
-    setState(() {
-      _isLoading = true;
-    });
-    // String res = await AuthMethods().loginUser(
-    //     email: _emailController.text, password: _passwordController.text);
-    // if (res == 'success') {
-    //   Navigator.of(context).pushAndRemoveUntil(
-    //       MaterialPageRoute(
-    //         builder: (context) => const ResponsiveLayout(
-    //           mobileScreenLayout: MobileScreenLayout(),
-    //           webScreenLayout: WebScreenLayout(),
-    //         ),
-    //       ),
-    //           (route) => false);
-    //
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    // } else {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //   showSnackBar(context, res);
-    // }
+  void pickCountry() {
+    showCountryPicker(
+        context: context,
+        onSelect: (Country _country) {
+          setState(() {
+            country = _country;
+          });
+        });
+  }
+
+  void sendPhoneNumber() {
+    String phoneNumber = phoneController.text.trim();
+    if (country != null && phoneNumber.isNotEmpty) {
+      ref
+          .read(authControllerProvider)
+          .signInWithPhone(context, '+${country!.phoneCode}$phoneNumber');
+    } else {
+      showSnackBar(context: context, content: 'Fill out all the fields');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Container(
-          padding: MediaQuery.of(context).size.width > webScreenSize
-              ? EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 3)
-              : const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
+      appBar: AppBar(
+        title: const Text('Enter your phone number'),
+        elevation: 0,
+        backgroundColor: backgroundColor,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
-                flex: 2,
-                child: Container(),
+              const Text('WhatsApp will need to verify your phone number.'),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: pickCountry,
+                child: const Text('Pick Country'),
               ),
-              Image.asset("assets/ic_imess.png"),
-              const SizedBox(
-                height: 64,
-              ),
-              TextFieldInput(
-                hintText: 'Enter your email',
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _emailController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Enter your password',
-                textInputType: TextInputType.text,
-                textEditingController: _passwordController,
-                isPass: true,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              InkWell(
-                onTap: loginUser,
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    color: blueColor,
-                  ),
-                  child: !_isLoading
-                      ? const Text(
-                    'Log in',
-                  )
-                      : const CircularProgressIndicator(
-                    color: primaryColor,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Flexible(
-                child: Container(),
-                flex: 2,
-              ),
+              const SizedBox(height: 5),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text(
-                      'Dont have an account?',
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SignupScreen(),
-                      ),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const Text(
-                        ' Signup.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  if (country != null) Text('+${country!.phoneCode}'),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    width: size.width * 0.7,
+                    child: TextField(
+                      controller: phoneController,
+                      decoration: const InputDecoration(
+                        hintText: 'phone number',
                       ),
                     ),
                   ),
                 ],
+              ),
+              SizedBox(height: size.height * 0.6),
+              SizedBox(
+                width: 90,
+                child: CustomButton(
+                  onPressed: sendPhoneNumber,
+                  text: 'NEXT',
+                ),
               ),
             ],
           ),
