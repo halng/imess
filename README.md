@@ -2,17 +2,18 @@
 
 A new Flutter project
 
-- [ ] Chat ui
-- [ ] Send messgae
-- [ ] Send audio
-- [ ] send image
-- [ ] send file
-- [ ] call
-- [ ] call audio
-- [ ] Change approach to fetch user when create group
+- [x] Chat ui
+- [x] Send messgae
+- [x] Send audio
+- [x] send image
+- [x] send file
+- [x] call video
+- [ ] call audio - noy test yet
+- [ ] Manager chat/group
+- [x] Change approach to fetch user when create group
 - [ ] Search User
 - [ ] Search User by permission
-- [ ] Change approach to fetch user when click float button
-- [ ] Update Call tab 
+- [x] Change approach to fetch user when click float button
+- [x] Update Call tab 
 - [ ] Integrate with story page
 - [ ] Create profile/management screen
