@@ -19,11 +19,13 @@ class SelectContactRepository {
     required this.firestore,
   });
 
+  // TODO: change this function to get contacts from database
   Future<List<Contact>> getContacts() async {
     List<Contact> contacts = [];
     try {
       if (await FlutterContacts.requestPermission()) {
         contacts = await FlutterContacts.getContacts(withProperties: true);
+        print(contacts);
       }
     } catch (e) {
       debugPrint(e.toString());
