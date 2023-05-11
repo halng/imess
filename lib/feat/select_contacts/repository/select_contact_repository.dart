@@ -1,68 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:imess/common/utils/helper.dart';
 import 'package:imess/models/user_model.dart';
-import 'package:imess/feat/chat/screens/mobile_chat_screen.dart';
 
 final selectContactsRepositoryProvider = Provider(
   (ref) => SelectContactRepository(
-    firestore: FirebaseFirestore.instance,
-  ),
+      firestore: FirebaseFirestore.instance, auth: FirebaseAuth.instance),
 );
 
 class SelectContactRepository {
   final FirebaseFirestore firestore;
+  final FirebaseAuth auth;
+  SelectContactRepository({required this.firestore, required this.auth});
 
-  SelectContactRepository({
-    required this.firestore,
-  });
-
-  Future<List<Contact>> getContacts() async {
-    List<Contact> contacts = [];
-    try {
-      if (await FlutterContacts.requestPermission()) {
-        contacts = await FlutterContacts.getContacts(withProperties: true);
-      }
-    } catch (e) {
-      debugPrint(e.toString());
+  Future<List<Map<String, String>>> getUser() async {
+    var users = await firestore
+        .collection("users")
+        .where("phoneNumber", isNotEqualTo: auth.currentUser!.phoneNumber)
+        .get();
+    var result = List<Map<String, String>>.filled(users.size, {});
+    int index = 0;
+    for (var document in users.docs) {
+      var userData = UserModel.fromSnap(document);
+      result[index] = {
+        "phoneNumber": userData.phoneNumber,
+        "username": userData.username,
+        "uid": userData.uid,
+        "photoUrl": userData.photoUrl
+      };
     }
-    return contacts;
-  }
-
-  void selectContact(Contact selectedContact, BuildContext context) async {
-    try {
-      var userCollection = await firestore.collection('users').get();
-      bool isFound = false;
-
-      for (var document in userCollection.docs) {
-        var userData = UserModel.fromSnap(document);
-        String selectedPhoneNum = selectedContact.phones[0].number.replaceAll(
-          ' ',
-          '',
-        );
-        if (selectedPhoneNum == userData.phoneNumber) {
-          isFound = true;
-          Navigator.pushNamed(
-            context,
-            MobileChatScreen.routeName,
-            arguments: {
-              'name': userData.username,
-              'uid': userData.uid,
-            },
-          );
-        }
-      }
-
-      if (!isFound) {
-        showSnackBar(
-          context: context,
-          content: 'This number does not exist on this app.',
-        );
-      }
-    } catch (e) {
-      showSnackBar(context: context, content: e.toString());
-    }
+    return result;
   }
 }

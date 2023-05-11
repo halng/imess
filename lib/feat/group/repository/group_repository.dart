@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:imess/common/repos/firebase_storage.dart';
@@ -29,25 +28,8 @@ class GroupRepository {
   });
 
   void createGroup(BuildContext context, String name, File profilePic,
-      List<Contact> selectedContact) async {
+      List<String> uids) async {
     try {
-      List<String> uids = [];
-      for (int i = 0; i < selectedContact.length; i++) {
-        var userCollection = await firestore
-            .collection('users')
-            .where(
-              'phoneNumber',
-              isEqualTo: selectedContact[i].phones[0].number.replaceAll(
-                    ' ',
-                    '',
-                  ),
-            )
-            .get();
-
-        if (userCollection.docs.isNotEmpty && userCollection.docs[0].exists) {
-          uids.add(userCollection.docs[0].data()['uid']);
-        }
-      }
       var groupId = const Uuid().v1();
 
       String profileUrl = await ref

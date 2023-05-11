@@ -57,7 +57,11 @@ class CallPickupScreen extends ConsumerWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ScreenLayout()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ScreenLayout()));
                           },
                           icon: const Icon(Icons.call_end,
                               color: Colors.redAccent),
@@ -76,10 +80,7 @@ class CallPickupScreen extends ConsumerWidget {
                               ),
                             );
                           },
-                          icon: const Icon(
-                            Icons.call,
-                            color: Colors.green,
-                          ),
+                          icon: const Icon(Icons.call, color: Colors.green),
                         ),
                       ],
                     ),

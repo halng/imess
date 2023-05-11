@@ -61,7 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text('WhatsApp will need to verify your phone number.'),
+              const Text('iMess will need to verify your phone number.'),
               const SizedBox(height: 10),
               TextButton(
                 onPressed: pickCountry,
