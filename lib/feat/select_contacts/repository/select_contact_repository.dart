@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:imess/common/utils/helper.dart';
 import 'package:imess/models/user_model.dart';
-import 'package:imess/feat/chat/screens/mobile_chat_screen.dart';
 
 final selectContactsRepositoryProvider = Provider(
   (ref) => SelectContactRepository(
@@ -22,7 +17,6 @@ class SelectContactRepository {
     var users = await firestore
         .collection("users")
         .where("phoneNumber", isNotEqualTo: auth.currentUser!.phoneNumber)
-        .limit(100)
         .get();
     var result = List<Map<String, String>>.filled(users.size, {});
     int index = 0;
