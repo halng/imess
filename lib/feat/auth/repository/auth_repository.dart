@@ -13,7 +13,7 @@ import 'package:imess/layout/layout.dart';
 import 'package:imess/models/user_model.dart';
 
 final authRepositoryProvider = Provider(
-      (ref) => AuthRepository(
+  (ref) => AuthRepository(
     auth: FirebaseAuth.instance,
     firestore: FirebaseFirestore.instance,
   ),
@@ -29,7 +29,7 @@ class AuthRepository {
 
   Future<UserModel?> getCurrentUserData() async {
     var userData =
-    await firestore.collection('users').doc(auth.currentUser?.uid).get();
+        await firestore.collection('users').doc(auth.currentUser?.uid).get();
 
     UserModel? user;
     if (userData.data() != null) {
@@ -76,7 +76,7 @@ class AuthRepository {
       Navigator.pushNamedAndRemoveUntil(
         context,
         UserInformationScreen.routeName,
-            (route) => false,
+        (route) => false,
       );
     } on FirebaseAuthException catch (e) {
       showSnackBar(context: context, content: e.message!);
@@ -100,9 +100,9 @@ class AuthRepository {
         photoUrl = await ref
             .read(commonFirebaseStorageRepositoryProvider)
             .storeDataToFirebase(
-          'profilePic/$uid',
-          profilePic,
-        );
+              'profilePic/$uid',
+              profilePic,
+            );
       }
 
       var user = UserModel(
@@ -125,7 +125,7 @@ class AuthRepository {
         MaterialPageRoute(
           builder: (context) => const ScreenLayout(),
         ),
-            (route) => false,
+        (route) => false,
       );
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
@@ -134,15 +134,17 @@ class AuthRepository {
 
   Stream<UserModel> userData(String userId) {
     return firestore.collection('users').doc(userId).snapshots().map(
-          (event) => UserModel.fromSnap(
-        event
-      ),
-    );
+          (event) => UserModel.fromSnap(event),
+        );
   }
 
   void setUserState(bool isOnline) async {
     await firestore.collection('users').doc(auth.currentUser!.uid).update({
       'isOnline': isOnline,
     });
+  }
+
+  Future<void> signOut() async {
+    await auth.signOut();
   }
 }

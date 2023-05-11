@@ -60,4 +60,8 @@ class AuthController {
   void setUserState(bool isOnline) {
     authRepository.setUserState(isOnline);
   }
+
+    Future<void> signOut() async {
+    await authRepository.signOut();
+  }
 }
