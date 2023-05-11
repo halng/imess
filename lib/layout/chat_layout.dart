@@ -212,7 +212,9 @@ class _MobileLayoutScreenState extends ConsumerState<ChatLayout>
             actions: [
               IconButton(
                 icon: const Icon(Icons.search, color: Colors.grey),
-                onPressed: () {},
+                onPressed: () async {
+                  Navigator.pushNamed(context, SelectContactsScreen.routeName);
+                }, 
               ),
               PopupMenuButton(
                 icon: const Icon(

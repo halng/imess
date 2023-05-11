@@ -21,7 +21,7 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  bool _isLoading = false;
+  final bool _isLoading = false;
   Uint8List? _image;
 
   @override
