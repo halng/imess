@@ -29,11 +29,10 @@ class LandingScreen extends StatelessWidget {
             ),
             SizedBox(height: size.height / 9),
             Image.asset(
-              'assets/bg.png',
+              'assets/ic_imess.png',
               height: 340,
               width: 340,
-              color: tabColor,
-            ),
+                ),
             SizedBox(height: size.height / 9),
             const Padding(
               padding: EdgeInsets.all(15.0),

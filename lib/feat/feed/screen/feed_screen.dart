@@ -13,24 +13,22 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-              backgroundColor: backgroundColor,
-              centerTitle: false,
-              //TODO: load imess logo here
-              //TODO: change icon below to profile picture
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.messenger_outline,
-                    color: primaryColor,
-                  ),
-                  onPressed: () {},
-                ),
-              ],
+        backgroundColor: backgroundColor,
+        centerTitle: false,
+        title: const Text("iMess - Feed"),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.more_vert,
+              color: primaryColor,
             ),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
         builder: (context,
@@ -45,7 +43,7 @@ class _FeedScreenState extends State<FeedScreen> {
             itemBuilder: (ctx, index) => Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 0,
-                vertical:  0,
+                vertical: 0,
               ),
               child: PostCard(
                 snap: snapshot.data!.docs[index].data(),

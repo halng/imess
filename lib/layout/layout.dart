@@ -65,14 +65,14 @@ class _ScreenLayoutState extends State<ScreenLayout> {
               backgroundColor: primaryColor),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.add_circle,
+                Icons.add_circle_outline,
                 color: (_page == 2) ? primaryColor : secondaryColor,
               ),
               label: '',
               backgroundColor: primaryColor),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.favorite,
+              Icons.search,
               color: (_page == 3) ? primaryColor : secondaryColor,
             ),
             label: '',
@@ -80,7 +80,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
+              Icons.person_2_outlined,
               color: (_page == 4) ? primaryColor : secondaryColor,
             ),
             label: '',
