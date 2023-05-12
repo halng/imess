@@ -53,7 +53,7 @@ class _PostCardState extends State<PostCard> {
       await PostController().deletePost(postId);
     } catch (err) {
       showSnackBar(
-        context: context,
+       context: context,
         content: err.toString(),
       );
     }
@@ -61,6 +61,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       // boundary needed for web
       decoration: BoxDecoration(
@@ -231,7 +232,18 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-              )
+              ),
+              IconButton(
+                  icon: const Icon(
+                    Icons.send,
+                  ),
+                  onPressed: () {}),
+              Expanded(
+                  child: Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                    icon: const Icon(Icons.bookmark_border), onPressed: () {}),
+              ))
             ],
           ),
           //DESCRIPTION AND NUMBER OF COMMENTS
