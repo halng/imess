@@ -45,16 +45,11 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
     String bio = _bioController.text.trim();
 
     if (email.isNotEmpty && username.isNotEmpty && bio.isNotEmpty) {
-      ref.read(authControllerProvider).saveUserDataToFirebase(
-        context,
-        username,
-        _image,
-        bio,
-        email
-      );
+      ref
+          .read(authControllerProvider)
+          .saveUserDataToFirebase(context, username, _image, bio, email);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +63,10 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(
-                child: Container(),
                 flex: 2,
+                child: Container(),
               ),
-             Image.asset(
-                'assets/ic_imess.png',
-                height: 340,
-                width: 340,
-              ),
+              Image.asset('assets/ic_imess.png'),
               const SizedBox(
                 height: 64,
               ),
@@ -83,16 +74,16 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                 children: [
                   _image != null
                       ? CircleAvatar(
-                    radius: 64,
-                    backgroundImage: MemoryImage(_image!),
-                    backgroundColor: Colors.red,
-                  )
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                          backgroundColor: Colors.red,
+                        )
                       : const CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage(
-                        'https://i.stack.imgur.com/l60Hf.png'),
-                    backgroundColor: Colors.red,
-                  ),
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              'https://i.stack.imgur.com/l60Hf.png'),
+                          backgroundColor: Colors.red,
+                        ),
                   Positioned(
                     bottom: -10,
                     left: 80,
@@ -144,19 +135,19 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                   ),
                   child: !_isLoading
                       ? const Text(
-                    'Go',
-                  )
+                          'Go',
+                        )
                       : const CircularProgressIndicator(
-                    color: primaryColor,
-                  ),
+                          color: primaryColor,
+                        ),
                 ),
               ),
               const SizedBox(
                 height: 12,
               ),
               Flexible(
-                child: Container(),
                 flex: 2,
+                child: Container(),
               ),
             ],
           ),

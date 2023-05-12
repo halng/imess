@@ -73,26 +73,30 @@ class AuthRepository {
         smsCode: userOTP,
       );
       await auth.signInWithCredential(credential);
-      
-      var userData =
-          await firestore.collection('users').doc(auth.currentUser?.uid).get();
-      if (userData.exists) {
-        // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ScreenLayout(),
-          ),
-          (route) => false,
-        );
-      }
-      
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        UserInformationScreen.routeName,
-        (route) => false,
-      );
+
+      await firestore
+          .collection('users')
+          .doc(auth.currentUser?.uid)
+          .get()
+          .then((value) {
+        if (value.get("username").toString().isNotEmpty) {
+          // ignore: use_build_context_synchronously
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ScreenLayout(),
+            ),
+            (route) => false,
+          );
+        } else {
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            UserInformationScreen.routeName,
+            (route) => false,
+          );
+        }
+      });
     } on FirebaseAuthException catch (e) {
       showSnackBar(context: context, content: e.message!);
     }
