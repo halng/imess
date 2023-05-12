@@ -73,6 +73,21 @@ class AuthRepository {
         smsCode: userOTP,
       );
       await auth.signInWithCredential(credential);
+      
+      var userData =
+          await firestore.collection('users').doc(auth.currentUser?.uid).get();
+      if (userData.exists) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ScreenLayout(),
+          ),
+          (route) => false,
+        );
+      }
+      
+      // ignore: use_build_context_synchronously
       Navigator.pushNamedAndRemoveUntil(
         context,
         UserInformationScreen.routeName,
