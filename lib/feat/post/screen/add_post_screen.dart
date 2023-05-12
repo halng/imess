@@ -1,23 +1,27 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imess/common/providers/user_provider.dart';
 import 'package:imess/common/utils/colors.dart';
 import 'package:imess/common/utils/helper.dart';
+import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/post/controller/post_controller.dart';
+import 'package:imess/models/user_model.dart';
 import 'package:provider/provider.dart';
 
-class AddPostScreen extends StatefulWidget {
+class AddPostScreen extends ConsumerStatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddPostScreen> createState() => _AddPostScreenState();
+  ConsumerState<AddPostScreen> createState() => _AddPostScreenState();
 }
 
-class _AddPostScreenState extends State<AddPostScreen> {
+class _AddPostScreenState extends ConsumerState<AddPostScreen> {
   Uint8List? _file;
   bool isLoading = false;
+  var userModel;
   final TextEditingController _descriptionController = TextEditingController();
 
   _selectImage(BuildContext parentContext) async {
@@ -60,34 +64,36 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void postImage(String uid, String username, String profImage) async {
+  void postImage() async {
     setState(() {
       isLoading = true;
     });
     // start the loading
     try {
       // upload to storage and db
-      String res = await PostController().uploadPost(
-        _descriptionController.text,
-        _file!,
-        uid,
-        username,
-        profImage,
-      );
-      if (res == "success") {
-        setState(() {
-          isLoading = false;
-        });
-        // ignore: use_build_context_synchronously
-        showSnackBar(
-          context: context,
-          content: 'Posted!',
+      ref.read(userDataAuthProvider).whenData((value) async {
+        String res = await PostController().uploadPost(
+          _descriptionController.text,
+          _file!,
+          value!.uid,
+          value.username,
+          value.photoUrl,
         );
-        clearImage();
-      } else {
-        // ignore: use_build_context_synchronously
-        showSnackBar(context: context, content: res);
-      }
+        if (res == "success") {
+          setState(() {
+            isLoading = false;
+          });
+          // ignore: use_build_context_synchronously
+          showSnackBar(
+            context: context,
+            content: 'Posted!',
+          );
+          clearImage();
+        } else {
+          // ignore: use_build_context_synchronously
+          showSnackBar(context: context, content: res);
+        }
+      });
     } catch (err) {
       setState(() {
         isLoading = false;
@@ -112,9 +118,17 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
+  void initState() {
+    super.initState();
+    ref.read(userDataAuthProvider).whenData((value) {
+      setState(() {
+        userModel = value;
+      });
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return _file == null
         ? Center(
             child: IconButton(
@@ -137,11 +151,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               centerTitle: false,
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => postImage(
-                    userProvider.getUser.uid,
-                    userProvider.getUser.username,
-                    userProvider.getUser.photoUrl,
-                  ),
+                  onPressed: () => postImage(),
                   child: const Text(
                     "Post",
                     style: TextStyle(
@@ -165,7 +175,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   children: <Widget>[
                     CircleAvatar(
                       backgroundImage: NetworkImage(
-                        userProvider.getUser.photoUrl,
+                        userModel.photoUrl,
                       ),
                     ),
                     SizedBox(
