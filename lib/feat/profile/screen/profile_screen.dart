@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:imess/common/utils/colors.dart';
 import 'package:imess/common/utils/helper.dart';
 import 'package:imess/common/widgets/flow_button.dart';
 import 'package:imess/feat/auth/repository/auth_repository.dart';
 import 'package:imess/feat/auth/screens/login_screen.dart';
-import 'package:imess/feat/chat/screens/mobile_chat_screen.dart';
 import 'package:imess/feat/post/controller/post_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -110,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     buildStatColumn(following, "following"),
                                   ],
                                 ),
-                                Column(
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
@@ -129,7 +127,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           FirebaseFirestore
                                                               .instance)
                                                   .signOut();
-                                              // ignore: use_build_context_synchronously
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(
@@ -177,28 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     followers++;
                                                   });
                                                 },
-                                              ),
-                                    FirebaseAuth.instance.currentUser!.uid !=
-                                            widget.uid
-                                        ? FollowButton(
-                                            text: 'Chat Now',
-                                            backgroundColor: backgroundColor,
-                                            textColor: primaryColor,
-                                            borderColor: Colors.grey,
-                                            function: () async {
-                                              Navigator.pushNamed(context,
-                                                  MobileChatScreen.routeName,
-                                                  arguments: {
-                                                    'name':
-                                                        userData["username"],
-                                                    'uid': userData["uid"],
-                                                    'profilePic':
-                                                        userData["photoUrl"],
-                                                    "isGroupChat": false
-                                                  });
-                                            },
-                                          )
-                                        : Container()
+                                              )
                                   ],
                                 ),
                               ],
