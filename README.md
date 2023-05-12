@@ -11,9 +11,9 @@ A new Flutter project
 - [ ] call audio - noy test yet
 - [ ] Manager chat/group
 - [x] Change approach to fetch user when create group
-- [ ] Search User
-- [ ] Search User by permission
+- [x] Search User
+- [x] Search User by permission
 - [x] Change approach to fetch user when click float button
 - [x] Update Call tab 
-- [ ] Integrate with story page
-- [ ] Create profile/management screen
+- [x] Integrate with story page
+- [x] Create profile/management screen
