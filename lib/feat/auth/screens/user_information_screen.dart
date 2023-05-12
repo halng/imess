@@ -71,7 +71,11 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
                 child: Container(),
                 flex: 2,
               ),
-             //TODO: add logo icon here
+             Image.asset(
+                'assets/ic_imess.png',
+                height: 340,
+                width: 340,
+              ),
               const SizedBox(
                 height: 64,
               ),
