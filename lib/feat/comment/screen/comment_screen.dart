@@ -1,25 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imess/common/providers/user_provider.dart';
 import 'package:imess/common/utils/colors.dart';
 import 'package:imess/common/utils/helper.dart';
+import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/comment/widget/comment_card.dart';
 import 'package:imess/feat/post/controller/post_controller.dart';
 import 'package:imess/models/user_model.dart';
 import 'package:provider/provider.dart';
 
-class CommentsScreen extends StatefulWidget {
+class CommentsScreen extends ConsumerStatefulWidget {
   final postId;
   const CommentsScreen({Key? key, required this.postId}) : super(key: key);
 
   @override
-  State<CommentsScreen> createState() => _CommentsScreenState();
+  ConsumerState<CommentsScreen> createState() => _CommentsScreenState();
 }
 
-class _CommentsScreenState extends State<CommentsScreen> {
+class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   final TextEditingController commentEditingController =
       TextEditingController();
+  var user;
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userDataAuthProvider).whenData((value) {
+      setState(() {
+        user = value;
+      });
+    });
+  }
 
   void postComment(String uid, String name, String profilePic) async {
     try {
@@ -32,6 +45,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
       );
 
       if (res != 'success') {
+        // ignore: use_build_context_synchronously
         showSnackBar(context: context, content: res);
       }
       setState(() {
@@ -47,8 +61,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel user = Provider.of<UserProvider>(context).getUser;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
