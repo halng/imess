@@ -8,7 +8,7 @@ A new Flutter project
 - [x] send image
 - [x] send file
 - [x] call video
-- [ ] call audio - noy test yet
+- [x] call audio - noy test yet
 - [ ] Manager chat/group
 - [x] Change approach to fetch user when create group
 - [x] Search User
