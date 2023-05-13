@@ -21,8 +21,24 @@ class GroupController {
     required this.ref,
   });
 
-  void createGroup(BuildContext context, String name, File profilePic,
-      List<String> uids) {
+  void createGroup(
+      BuildContext context, String name, File profilePic, List<String> uids) {
     groupRepository.createGroup(context, name, profilePic, uids);
+  }
+
+  void addUserIntoGroup(BuildContext context, String groupId, String userId) {
+    groupRepository.addUserIntoGroup(context, groupId, userId);
+  }
+
+  void delUserIntoGroup(BuildContext context, String groupId, String userId) {
+    groupRepository.delUserIntoGroup(context, groupId, userId);
+  }
+
+  void delGroup(BuildContext context, String groupId) {
+    groupRepository.delGroup(context, groupId);
+  }
+
+  void delChat(BuildContext context, String senderId, String receiverId) {
+    groupRepository.delChat(context, senderId, receiverId);
   }
 }
