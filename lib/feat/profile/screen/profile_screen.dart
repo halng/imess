@@ -300,15 +300,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         });
                                       })
                                 ]),
-                      // Container(
-                      //   alignment: Alignment.centerLeft,
-                      //   padding: const EdgeInsets.only(
-                      //     top: 1,
-                      //   ),
-                      //   child: Text(
-                      //     userData['bio'],
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
