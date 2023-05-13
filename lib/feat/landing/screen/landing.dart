@@ -30,8 +30,8 @@ class LandingScreen extends StatelessWidget {
             SizedBox(height: size.height / 9),
             Image.asset(
               'assets/ic_imess.png',
-              height: 340,
-              width: 340,
+              //height: 340,
+              //width: 340,
                 ),
             SizedBox(height: size.height / 9),
             const Padding(
