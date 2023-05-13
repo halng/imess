@@ -79,7 +79,7 @@ class AuthRepository {
           .doc(auth.currentUser?.uid)
           .get()
           .then((value) {
-        if (value.get("username").toString().isNotEmpty) {
+        if (value.data() != null) {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
             context,
@@ -88,14 +88,14 @@ class AuthRepository {
             ),
             (route) => false,
           );
-        } else {
-          // ignore: use_build_context_synchronously
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            UserInformationScreen.routeName,
-            (route) => false,
-          );
         }
+
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          UserInformationScreen.routeName,
+          (route) => false,
+        );
       });
     } on FirebaseAuthException catch (e) {
       showSnackBar(context: context, content: e.message!);
