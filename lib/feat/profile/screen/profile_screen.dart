@@ -2,29 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imess/common/utils/colors.dart';
 import 'package:imess/common/utils/helper.dart';
 import 'package:imess/common/widgets/flow_button.dart';
+import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/auth/repository/auth_repository.dart';
 import 'package:imess/feat/auth/screens/login_screen.dart';
 import 'package:imess/feat/chat/screens/mobile_chat_screen.dart';
 import 'package:imess/feat/post/controller/post_controller.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   final String uid;
   const ProfileScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   var userData = {};
   int postLen = 0;
   int followers = 0;
   int following = 0;
   bool isFollowing = false;
   bool isLoading = false;
+  bool isEdit = false;
+  String username = '';
+  String bio = '';
 
   @override
   void initState() {
@@ -62,9 +67,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         content: e.toString(),
       );
     }
+    username = userData['username'];
+    bio = userData['bio'];
     setState(() {
       isLoading = false;
     });
+  }
+
+  void updateUser(String username, String bio) {
+    if (username.isNotEmpty && bio.isNotEmpty) {
+      ref.read(authControllerProvider).updateUser(context, username, bio);
+      userData.update('username', (value) => username);
+      userData.update('bio', (value) => bio);
+      showSnackBar(context: context, content: 'Edit successfully');
+      setState(() {
+        isEdit = false;
+      });
+    } else {
+      showSnackBar(context: context, content: 'Fill out all the fields');
+    }
   }
 
   @override
@@ -206,27 +227,88 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(
-                          top: 15,
-                        ),
-                        child: Text(
-                          userData['username'],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(
-                          top: 1,
-                        ),
-                        child: Text(
-                          userData['bio'],
-                        ),
-                      ),
+                      isEdit == false
+                          ? GestureDetector(
+                              onTap: () {
+                                if (FirebaseAuth.instance.currentUser!.uid ==
+                                    widget.uid) {
+                                  setState(() {
+                                    isEdit = true;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
+                                  ),
+                                  child: Wrap(spacing: 50, children: [
+                                    Text(
+                                      userData['username'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      userData['bio'],
+                                    ),
+                                  ])),
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                  Container(
+                                      alignment: Alignment.centerLeft,
+                                      padding: const EdgeInsets.only(
+                                        top: 15,
+                                      ),
+                                      child: Wrap(spacing: 50, children: [
+                                        TextField(
+                                          controller: TextEditingController(
+                                              text: userData['username']),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          onChanged: (text) {
+                                            username = text;
+                                          },
+                                        ),
+                                        TextField(
+                                          controller: TextEditingController(
+                                              text: userData['bio']),
+                                          onChanged: (text) {
+                                            bio = text;
+                                          },
+                                        ),
+                                      ])),
+                                  FollowButton(
+                                      text: 'Edit',
+                                      backgroundColor: backgroundColor,
+                                      textColor: primaryColor,
+                                      borderColor: Colors.grey,
+                                      function: () {
+                                        updateUser(username, bio);
+                                      }),
+                                  FollowButton(
+                                      text: 'Cancel',
+                                      backgroundColor: backgroundColor,
+                                      textColor: primaryColor,
+                                      borderColor: Colors.grey,
+                                      function: () {
+                                        setState(() {
+                                          isEdit = false;
+                                        });
+                                      })
+                                ]),
+                      // Container(
+                      //   alignment: Alignment.centerLeft,
+                      //   padding: const EdgeInsets.only(
+                      //     top: 1,
+                      //   ),
+                      //   child: Text(
+                      //     userData['bio'],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
