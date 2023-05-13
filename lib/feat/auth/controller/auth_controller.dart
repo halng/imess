@@ -61,7 +61,11 @@ class AuthController {
     authRepository.setUserState(isOnline);
   }
 
-    Future<void> signOut() async {
+  void updateUser(BuildContext context, String name, String bio){
+    authRepository.updateUser(context, name, bio);
+  }
+
+  Future<void> signOut() async {
     await authRepository.signOut();
   }
 }

@@ -163,6 +163,17 @@ class AuthRepository {
     });
   }
 
+  void updateUser(BuildContext context, String username, String bio) async {
+    try {
+      await firestore.collection('users').doc(auth.currentUser!.uid).update({
+        'username': username,
+        'bio': bio,
+      });
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
+  }
+
   Future<void> signOut() async {
     await auth.signOut();
   }
