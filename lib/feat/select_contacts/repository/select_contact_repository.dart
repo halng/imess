@@ -14,21 +14,22 @@ class SelectContactRepository {
   SelectContactRepository({required this.firestore, required this.auth});
 
   Future<List<Map<String, String>>> getUser() async {
-    var users = await firestore
+    List<Map<String, String>> results = [];
+    await firestore
         .collection("users")
         .where("phoneNumber", isNotEqualTo: auth.currentUser!.phoneNumber)
-        .get();
-    var result = List<Map<String, String>>.filled(users.size, {});
-    int index = 0;
-    for (var document in users.docs) {
-      var userData = UserModel.fromSnap(document);
-      result[index] = {
-        "phoneNumber": userData.phoneNumber,
-        "username": userData.username,
-        "uid": userData.uid,
-        "photoUrl": userData.photoUrl
-      };
-    }
-    return result;
+        .get()
+        .then((value) {
+      for (var document in value.docs) {
+        var userData = UserModel.fromSnap(document);
+        results.add({
+          "phoneNumber": userData.phoneNumber,
+          "username": userData.username,
+          "uid": userData.uid,
+          "photoUrl": userData.photoUrl
+        });
+      }
+    });
+    return results;
   }
 }
