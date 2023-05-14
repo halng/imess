@@ -43,6 +43,7 @@ class ChatController {
   }
 
   Future<List<String>> getGroupMember(String groupId) {
+
     return chatRepository.getGroupMember(groupId);
   }
 
@@ -63,7 +64,7 @@ class ChatController {
             isGroupChat: isGroupChat,
           ),
         );
-    ref.read(messageReplyProvider.notifier).update((state) => null);
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void sendFileMessage(
@@ -86,7 +87,7 @@ class ChatController {
             isGroupChat: isGroupChat,
           ),
         );
-    ref.read(messageReplyProvider.notifier).update((state) => null);
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void sendGIFMessage(
@@ -110,7 +111,7 @@ class ChatController {
             isGroupChat: isGroupChat,
           ),
         );
-    ref.read(messageReplyProvider.notifier).update((state) => null);
+    ref.read(messageReplyProvider.state).update((state) => null);
   }
 
   void setChatMessageSeen(

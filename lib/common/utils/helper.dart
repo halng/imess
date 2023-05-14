@@ -15,7 +15,7 @@ Future<File?> pickImageFromGallery(BuildContext context) async {
   File? image;
   try {
     final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       image = File(pickedImage.path);
@@ -30,7 +30,7 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
   File? video;
   try {
     final pickedVideo =
-        await ImagePicker().pickVideo(source: ImageSource.gallery);
+    await ImagePicker().pickVideo(source: ImageSource.gallery);
 
     if (pickedVideo != null) {
       video = File(pickedVideo.path);
@@ -55,9 +55,10 @@ Future<GiphyGif?> pickGIF(BuildContext context) async {
 }
 
 pickImage(ImageSource source) async {
-  final ImagePicker imagePicker = ImagePicker();
-  XFile? file = await imagePicker.pickImage(source: source);
-  if (file != null) {
-    return await file.readAsBytes();
+  final ImagePicker _imagePicker = ImagePicker();
+  XFile? _file = await _imagePicker.pickImage(source: source);
+  if (_file != null) {
+    return await _file.readAsBytes();
   }
+  print('No Image Selected');
 }
