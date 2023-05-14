@@ -29,7 +29,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         context: context,
         onSelect: (Country country) {
           setState(() {
-            country = country;
+            this.country = country;
           });
         });
   }
