@@ -3,10 +3,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:imess/common/providers/user_provider.dart';
 import 'package:imess/common/utils/colors.dart';
 import 'package:imess/common/utils/helper.dart';
 import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/post/controller/post_controller.dart';
+import 'package:imess/models/user_model.dart';
+import 'package:provider/provider.dart';
 
 class AddPostScreen extends ConsumerStatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
@@ -18,7 +21,6 @@ class AddPostScreen extends ConsumerStatefulWidget {
 class _AddPostScreenState extends ConsumerState<AddPostScreen> {
   Uint8List? _file;
   bool isLoading = false;
-  // ignore: prefer_typing_uninitialized_variables
   var userModel;
   final TextEditingController _descriptionController = TextEditingController();
 

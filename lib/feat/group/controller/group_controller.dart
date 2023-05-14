@@ -29,7 +29,7 @@ class GroupController {
   void managerUser(BuildContext context, String groupId, List<String> userId) {
     groupRepository.addUserIntoGroup(context, groupId, userId);
   }
-
+  
   void delGroup(BuildContext context, String groupId) {
     groupRepository.delGroup(context, groupId);
   }

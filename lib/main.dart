@@ -16,11 +16,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp( const ProviderScope(
+    child: MyApp(),
+  ),);
 }
 
 class MyApp extends ConsumerWidget {
@@ -38,20 +36,21 @@ class MyApp extends ConsumerWidget {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: ref.watch(userDataAuthProvider).when(
-            data: (user) {
-              if (user == null) {
-                return const LandingScreen();
-              }
-              return const ScreenLayout();
-            },
-            error: (err, trace) {
-              return ErrorScreen(
-                error: err.toString(),
-              );
-            },
-            loading: () => const Loader(),
-          ),
+      home:
+      ref.watch(userDataAuthProvider).when(
+        data: (user) {
+          if (user == null) {
+            return const LandingScreen();
+          }
+          return const ScreenLayout();
+        },
+        error: (err, trace) {
+          return ErrorScreen(
+            error: err.toString(),
+          );
+        },
+        loading: () => const Loader(),
+      ),
     );
   }
 }

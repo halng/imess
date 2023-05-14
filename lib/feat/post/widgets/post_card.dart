@@ -9,7 +9,6 @@ import 'package:imess/feat/post/controller/post_controller.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
-  // ignore: prefer_typing_uninitialized_variables
   final snap;
   const PostCard({
     Key? key,

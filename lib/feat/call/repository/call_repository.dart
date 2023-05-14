@@ -40,7 +40,6 @@ class CallRepository {
           .doc(senderCallData.receiverId)
           .set(receiverCallData.toMap());
 
-      // ignore: use_build_context_synchronously
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -80,7 +79,6 @@ class CallRepository {
             .set(receiverCallData.toMap());
       }
 
-      // ignore: use_build_context_synchronously
       Navigator.push(
         context,
         MaterialPageRoute(

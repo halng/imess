@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -138,7 +139,6 @@ class AuthRepository {
 
       await firestore.collection('users').doc(uid).set(user.toJson());
 
-      // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -175,7 +175,6 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    setUserState(false);
     await auth.signOut();
   }
 }
