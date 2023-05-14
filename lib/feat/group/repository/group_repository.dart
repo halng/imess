@@ -55,21 +55,14 @@ class GroupRepository {
   }
 
   void addUserIntoGroup(
-      BuildContext context, String groupUid, String userUid) async {
+      BuildContext context, String groupUid, List<String> userUid) async {
     try {
       await firestore.collection("groups").doc(groupUid).update({
-        'membersUid': FieldValue.arrayUnion([userUid]),
+        "membersUid": FieldValue.delete(),
       });
-    } catch (e) {
-      showSnackBar(context: context, content: e.toString());
-    }
-  }
-
-  void delUserIntoGroup(
-      BuildContext context, String groupUid, String userUid) async {
-    try {
       await firestore.collection("groups").doc(groupUid).update({
-        'membersUid': FieldValue.arrayRemove([userUid]),
+        "membersUid":
+            FieldValue.arrayUnion([...userUid, auth.currentUser!.uid]),
       });
     } catch (e) {
       showSnackBar(context: context, content: e.toString());

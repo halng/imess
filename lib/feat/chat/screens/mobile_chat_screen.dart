@@ -8,6 +8,8 @@ import 'package:imess/feat/call/controller/call_controller.dart';
 import 'package:imess/feat/call/screens/call_pickup_screen.dart';
 import 'package:imess/feat/chat/widgets/bottom_chat_field.dart';
 import 'package:imess/feat/group/controller/group_controller.dart';
+import 'package:imess/feat/group/widgets/select_contacts_group.dart';
+import 'package:imess/feat/select_contacts/screens/manage_user.dart';
 import 'package:imess/models/user_model.dart';
 import 'package:imess/feat/chat/widgets/chat_list.dart';
 
@@ -20,9 +22,9 @@ class MobileChatScreen extends ConsumerWidget {
   const MobileChatScreen({
     Key? key,
     required this.name,
+    required this.profilePic,
     required this.uid,
     required this.isGroupChat,
-    required this.profilePic,
   }) : super(key: key);
 
   void makeCall(WidgetRef ref, BuildContext context) {
@@ -94,9 +96,11 @@ class MobileChatScreen extends ConsumerWidget {
                             child: const Text(
                               'Add/Del User',
                             ),
-                            onTap: () {
-                              // TODO add user into list memberUid
-                            }),
+                            onTap: () => Future(
+                                  () => Navigator.pushNamed(
+                                      context, ManageUserScreen.routeName,
+                                      arguments: {"groupId": uid}),
+                                )),
                         PopupMenuItem(
                             child: const Text(
                               'Del Chat',

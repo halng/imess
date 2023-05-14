@@ -26,14 +26,10 @@ class GroupController {
     groupRepository.createGroup(context, name, profilePic, uids);
   }
 
-  void addUserIntoGroup(BuildContext context, String groupId, String userId) {
+  void managerUser(BuildContext context, String groupId, List<String> userId) {
     groupRepository.addUserIntoGroup(context, groupId, userId);
   }
-
-  void delUserIntoGroup(BuildContext context, String groupId, String userId) {
-    groupRepository.delUserIntoGroup(context, groupId, userId);
-  }
-
+  
   void delGroup(BuildContext context, String groupId) {
     groupRepository.delGroup(context, groupId);
   }

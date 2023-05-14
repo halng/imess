@@ -71,6 +71,13 @@ class ChatRepository {
     });
   }
 
+  Future<List<String>> getGroupMember(String groupId) {
+    return firestore.collection('groups').doc(groupId).get().then((event) {
+      Group group = Group.fromMap(event.data()!);
+      return group.membersUid;
+    });
+  }
+
   Stream<List<Message>> getChatStream(String recieverUserId) {
     return firestore
         .collection('users')
