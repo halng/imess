@@ -41,16 +41,15 @@ class AuthController {
     );
   }
 
-  void saveUserDataToFirebase(
-      BuildContext context, String name, Uint8List? profilePic, String bio, String email) {
+  void saveUserDataToFirebase(BuildContext context, String name,
+      Uint8List? profilePic, String bio, String email) {
     authRepository.saveUserDataToFirebase(
-      name: name,
-      profilePic: profilePic,
-      ref: ref,
-      context: context,
-      bio: bio,
-      email: email
-    );
+        name: name,
+        profilePic: profilePic,
+        ref: ref,
+        context: context,
+        bio: bio,
+        email: email);
   }
 
   Stream<UserModel> userDataById(String userId) {
@@ -61,11 +60,12 @@ class AuthController {
     authRepository.setUserState(isOnline);
   }
 
-  void updateUser(BuildContext context, String name, String bio){
+  void updateUser(BuildContext context, String name, String bio) {
     authRepository.updateUser(context, name, bio);
   }
 
-  Future<void> signOut() async {
-    await authRepository.signOut();
-  }
+  // Future<void> signOut() async {
+  //   setUserState(false);
+  //   await authRepository.signOut();
+  // }
 }

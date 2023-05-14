@@ -16,6 +16,12 @@ class _SearchScreenState extends State<SearchScreen> {
   bool isShowUsers = false;
 
   @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

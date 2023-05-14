@@ -61,6 +61,8 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    fetchCommentLen();
+
     return Container(
       // boundary needed for web
       decoration: BoxDecoration(
