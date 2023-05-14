@@ -29,6 +29,7 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
     super.dispose();
     _emailController.dispose();
     _usernameController.dispose();
+    _bioController.dispose();
   }
 
   selectImage() async {

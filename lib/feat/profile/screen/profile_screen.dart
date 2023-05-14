@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imess/common/utils/colors.dart';
@@ -28,13 +27,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool isFollowing = false;
   bool isLoading = false;
   bool isEdit = false;
-  String username = '';
-  String bio = '';
-
+  
   @override
   void initState() {
     super.initState();
     getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userData = {};
   }
 
   getData() async {
@@ -67,8 +70,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         content: e.toString(),
       );
     }
-    username = userData['username'];
-    bio = userData['bio'];
     setState(() {
       isLoading = false;
     });
@@ -149,15 +150,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                                       firestore:
                                                           FirebaseFirestore
                                                               .instance)
-                                                  .signOut();
-                                              // ignore: use_build_context_synchronously
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginScreen(),
-                                                ),
-                                              );
+                                                  .signOut(context);
                                             },
                                           )
                                         : isFollowing
@@ -266,18 +259,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         TextField(
                                           controller: TextEditingController(
                                               text: userData['username']),
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
                                           onChanged: (text) {
-                                            username = text;
+                                            userData.update(
+                                                'username', (value) => text);
                                           },
                                         ),
                                         TextField(
                                           controller: TextEditingController(
                                               text: userData['bio']),
                                           onChanged: (text) {
-                                            bio = text;
+                                            userData.update(
+                                                'bio', (value) => text);
                                           },
                                         ),
                                       ])),
@@ -287,7 +279,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       textColor: primaryColor,
                                       borderColor: Colors.grey,
                                       function: () {
-                                        updateUser(username, bio);
+                                        updateUser(userData['username'],
+                                            userData['bio']);
                                       }),
                                   FollowButton(
                                       text: 'Cancel',
@@ -298,6 +291,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         setState(() {
                                           isEdit = false;
                                         });
+                                        getData();
                                       })
                                 ]),
                     ],

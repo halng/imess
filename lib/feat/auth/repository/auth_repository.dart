@@ -9,6 +9,7 @@ import 'package:imess/common/repos/firebase_storage.dart';
 import 'package:imess/common/utils/helper.dart';
 import 'package:imess/feat/auth/screens/otp_screen.dart';
 import 'package:imess/feat/auth/screens/user_information_screen.dart';
+import 'package:imess/feat/landing/screen/landing.dart';
 import 'package:imess/layout/layout.dart';
 import 'package:imess/models/user_model.dart';
 
@@ -83,7 +84,7 @@ class AuthRepository {
         Navigator.pushNamedAndRemoveUntil(
           context,
           UserInformationScreen.routeName,
-              (route) => false,
+          (route) => false,
         );
 
         if (value.exists) {
@@ -174,7 +175,16 @@ class AuthRepository {
     }
   }
 
-  Future<void> signOut() async {
-    await auth.signOut();
+  Future<void> signOut(BuildContext context) async {
+    setUserState(false);
+    FirebaseAuth.instance.signOut();
+    await auth.signOut().then((value) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const LandingScreen(),
+        ),
+      );
+    });
   }
 }
