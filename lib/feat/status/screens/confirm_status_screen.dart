@@ -27,12 +27,12 @@ class ConfirmStatusScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: () => addStatus(ref, context),
+        backgroundColor: tabColor,
         child: const Icon(
           Icons.done,
           color: Colors.white,
         ),
-        onPressed: () => addStatus(ref, context),
-        backgroundColor: tabColor,
       ),
     );
   }

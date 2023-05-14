@@ -14,4 +14,3 @@ class ErrorScreen extends StatelessWidget {
     );
   }
 }
-  
