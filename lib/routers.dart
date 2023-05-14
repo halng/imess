@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:imess/common/widgets/error.dart';
 import 'package:imess/feat/chat/screens/mobile_chat_screen.dart';
 import 'package:imess/feat/group/screens/create_group_screen.dart';
-import 'package:imess/feat/select_contacts/screens/select_contacts_screen.dart';
+import 'package:imess/feat/select_contacts/screens/manage_user.dart';
 import 'package:imess/feat/status/screens/confirm_status_screen.dart';
 import 'package:imess/feat/status/screens/status_screen.dart';
 
@@ -12,7 +12,6 @@ import 'feat/auth/screens/login_screen.dart';
 import 'feat/auth/screens/otp_screen.dart';
 import 'feat/auth/screens/user_information_screen.dart';
 import 'models/status_model.dart';
-
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -31,9 +30,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const UserInformationScreen(),
       );
-    case SelectContactsScreen.routeName:
+    case ManageUserScreen.routeName:
+      final arguments = settings.arguments as Map<String, dynamic>;
+      final groupId = arguments["groupId"];
       return MaterialPageRoute(
-        builder: (context) => const SelectContactsScreen(),
+        builder: (context) => ManageUserScreen(groupId: groupId),
       );
     case MobileChatScreen.routeName:
       final arguments = settings.arguments as Map<String, dynamic>;

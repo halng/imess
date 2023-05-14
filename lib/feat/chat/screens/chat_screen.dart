@@ -4,7 +4,7 @@ import 'package:imess/common/utils/colors.dart';
 import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/chat/widgets/contacts_list.dart';
 import 'package:imess/feat/group/screens/create_group_screen.dart';
-import 'package:imess/feat/select_contacts/screens/select_contacts_screen.dart';
+import 'package:imess/feat/select_contacts/screens/manage_user.dart';
 
 class ChatLayout extends ConsumerStatefulWidget {
   const ChatLayout({Key? key}) : super(key: key);
@@ -60,12 +60,12 @@ class _MobileLayoutScreenState extends ConsumerState<ChatLayout>
               ),
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.search, color: Colors.grey),
-                onPressed: () async {
-                  Navigator.pushNamed(context, SelectContactsScreen.routeName);
-                },
-              ),
+              // IconButton(
+              //   icon: const Icon(Icons.search, color: Colors.grey),
+              //   onPressed: () async {
+              //     Navigator.pushNamed(context, SelectContactsScreen.routeName);
+              //   },
+              // ),
               PopupMenuButton(
                 icon: const Icon(
                   Icons.more_vert,
@@ -87,7 +87,7 @@ class _MobileLayoutScreenState extends ConsumerState<ChatLayout>
         body: const ContactsList(),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            Navigator.pushNamed(context, SelectContactsScreen.routeName);
+            Navigator.pushNamed(context, ManageUserScreen.routeName);
           },
           backgroundColor: tabColor,
           child: const Icon(

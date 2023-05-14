@@ -53,4 +53,42 @@ class GroupRepository {
       showSnackBar(context: context, content: e.toString());
     }
   }
+
+  void addUserIntoGroup(
+      BuildContext context, String groupUid, List<String> userUid) async {
+    try {
+      await firestore.collection("groups").doc(groupUid).update({
+        "membersUid": FieldValue.delete(),
+      });
+      await firestore.collection("groups").doc(groupUid).update({
+        "membersUid":
+            FieldValue.arrayUnion([...userUid, auth.currentUser!.uid]),
+      });
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
+  }
+
+  void delGroup(BuildContext context, String groupUid) async {
+    try {
+      await firestore.collection("groups").doc(groupUid).delete();
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
+  }
+
+  void delChat(BuildContext context, String senderId, String receiverId) async {
+    try {
+      await firestore
+          .collection("users")
+          .doc('$senderId/chats/$receiverId')
+          .delete();
+      await firestore
+          .collection("users")
+          .doc('$receiverId/chats/$senderId')
+          .delete();
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imess/common/utils/colors.dart';
@@ -6,6 +7,9 @@ import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/call/controller/call_controller.dart';
 import 'package:imess/feat/call/screens/call_pickup_screen.dart';
 import 'package:imess/feat/chat/widgets/bottom_chat_field.dart';
+import 'package:imess/feat/group/controller/group_controller.dart';
+import 'package:imess/feat/group/widgets/select_contacts_group.dart';
+import 'package:imess/feat/select_contacts/screens/manage_user.dart';
 import 'package:imess/models/user_model.dart';
 import 'package:imess/feat/chat/widgets/chat_list.dart';
 
@@ -18,9 +22,9 @@ class MobileChatScreen extends ConsumerWidget {
   const MobileChatScreen({
     Key? key,
     required this.name,
+    required this.profilePic,
     required this.uid,
     required this.isGroupChat,
-    required this.profilePic,
   }) : super(key: key);
 
   void makeCall(WidgetRef ref, BuildContext context) {
@@ -31,6 +35,17 @@ class MobileChatScreen extends ConsumerWidget {
           profilePic,
           isGroupChat,
         );
+  }
+
+  void delChat(
+      WidgetRef ref, BuildContext context, bool isGroupChat, String groupId) {
+    if (isGroupChat) {
+      ref.read(groupControllerProvider).delGroup(context, groupId);
+    } else {
+      ref
+          .read(groupControllerProvider)
+          .delChat(context, groupId, FirebaseAuth.instance.currentUser!.uid);
+    }
   }
 
   @override
@@ -70,10 +85,39 @@ class MobileChatScreen extends ConsumerWidget {
               onPressed: () {},
               icon: const Icon(Icons.call),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert),
-            ),
+            PopupMenuButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.grey,
+                ),
+                itemBuilder: (context) => isGroupChat
+                    ? [
+                        PopupMenuItem(
+                            child: const Text(
+                              'Add/Del User',
+                            ),
+                            onTap: () => Future(
+                                  () => Navigator.pushNamed(
+                                      context, ManageUserScreen.routeName,
+                                      arguments: {"groupId": uid}),
+                                )),
+                        PopupMenuItem(
+                            child: const Text(
+                              'Del Chat',
+                            ),
+                            onTap: () {
+                              delChat(ref, context, isGroupChat, uid);
+                            })
+                      ]
+                    : [
+                        PopupMenuItem(
+                            child: const Text(
+                              'Del Chat',
+                            ),
+                            onTap: () {
+                              delChat(ref, context, isGroupChat, uid);
+                            })
+                      ]),
           ],
         ),
         body: Column(

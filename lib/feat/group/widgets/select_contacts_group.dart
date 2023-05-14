@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imess/common/widgets/error.dart';
 import 'package:imess/common/widgets/loader.dart';
 import 'package:imess/feat/select_contacts/controller/select_contact_controller.dart';
+import 'package:imess/models/group.dart';
 
 final selectedGroupContacts = StateProvider<List<String>>((ref) => []);
 
 class SelectContactsGroup extends ConsumerStatefulWidget {
-  const SelectContactsGroup({Key? key}) : super(key: key);
+  final String groupId;
+  const SelectContactsGroup({Key? key, required this.groupId})
+      : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -15,18 +19,32 @@ class SelectContactsGroup extends ConsumerStatefulWidget {
 }
 
 class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
-  List<int> selectedContactsIndex = [];
-
-  void selectContact(int index, String uid) {
-    if (selectedContactsIndex.contains(index)) {
-      selectedContactsIndex.removeAt(index);
+  void selectContact(String uid) {
+    if (ref.read(selectedGroupContacts).contains(uid)) {
+      setState(() {});
+      ref.read(selectedGroupContacts).remove(uid);
     } else {
-      selectedContactsIndex.add(index);
+      setState(() {});
+      ref.read(selectedGroupContacts).add(uid);
+      // .update((state) => [...state, uid]);
     }
-    setState(() {});
-    ref
-        .read(selectedGroupContacts.notifier)
-        .update((state) => [...state, uid]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.groupId != "NULL") {
+      FirebaseFirestore.instance
+          .collection('groups')
+          .doc(widget.groupId)
+          .get()
+          .then((value) {
+        Group group = Group.fromMap(value.data()!);
+        ref.read(selectedGroupContacts).clear();
+        ref.read(selectedGroupContacts).addAll([...group.membersUid]);
+        // .update((state) => [...group.membersUid]);
+      });
+    }
   }
 
   @override
@@ -38,7 +56,7 @@ class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
                 itemBuilder: (context, index) {
                   final contact = contactList[index];
                   return InkWell(
-                    onTap: () => selectContact(index, contact["uid"]!),
+                    onTap: () => selectContact(contact["uid"]!),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ListTile(
@@ -48,12 +66,17 @@ class _SelectContactsGroupState extends ConsumerState<SelectContactsGroup> {
                             fontSize: 18,
                           ),
                         ),
-                        leading: selectedContactsIndex.contains(index)
+                        leading: ref
+                                .watch(selectedGroupContacts)
+                                .contains(contact["uid"])
                             ? IconButton(
                                 onPressed: () {},
-                                icon: const Icon(Icons.done),
+                                icon: const Icon(Icons.check_box),
                               )
-                            : null,
+                            : IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.check_box_outline_blank),
+                              ),
                       ),
                     ),
                   );

@@ -100,7 +100,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                 ),
               ),
             ),
-            const SelectContactsGroup(),
+            const SelectContactsGroup(groupId: "NULL"),
           ],
         ),
       ),

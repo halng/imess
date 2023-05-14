@@ -42,6 +42,11 @@ class ChatController {
     return chatRepository.getGroupChatStream(groupId);
   }
 
+  Future<List<String>> getGroupMember(String groupId) {
+
+    return chatRepository.getGroupMember(groupId);
+  }
+
   void sendTextMessage(
     BuildContext context,
     String text,
