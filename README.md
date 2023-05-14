@@ -9,7 +9,7 @@ A new Flutter project
 - [x] send file
 - [x] call video
 - [x] call audio - noy test yet
-- [ ] Manager chat/group
+- [x] Manager chat/group
 - [x] Change approach to fetch user when create group
 - [x] Search User
 - [x] Search User by permission
