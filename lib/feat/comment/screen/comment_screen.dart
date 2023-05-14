@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:imess/common/providers/user_provider.dart';
 import 'package:imess/common/utils/colors.dart';
 import 'package:imess/common/utils/helper.dart';
 import 'package:imess/feat/auth/controller/auth_controller.dart';
 import 'package:imess/feat/comment/widget/comment_card.dart';
 import 'package:imess/feat/post/controller/post_controller.dart';
+import 'package:imess/models/user_model.dart';
+import 'package:provider/provider.dart';
 
 class CommentsScreen extends ConsumerStatefulWidget {
-  // ignore: prefer_typing_uninitialized_variables
   final postId;
   const CommentsScreen({Key? key, required this.postId}) : super(key: key);
 
@@ -19,7 +22,6 @@ class CommentsScreen extends ConsumerStatefulWidget {
 class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   final TextEditingController commentEditingController =
       TextEditingController();
-  // ignore: prefer_typing_uninitialized_variables
   var user;
 
   @override

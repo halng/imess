@@ -39,7 +39,7 @@ class _ChatListState extends ConsumerState<ChatList> {
     bool isMe,
     MessageEnum messageEnum,
   ) {
-    ref.read(messageReplyProvider.notifier).update(
+    ref.read(messageReplyProvider.state).update(
           (state) => MessageReply(
             message,
             isMe,

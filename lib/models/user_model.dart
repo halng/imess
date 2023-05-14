@@ -14,42 +14,40 @@ class UserModel {
 
   const UserModel(
       {required this.username,
-      required this.uid,
-      required this.photoUrl,
-      required this.email,
-      required this.bio,
-      required this.followers,
-      required this.following,
-      required this.isOnline,
-      required this.phoneNumber,
-      required this.groupId});
+        required this.uid,
+        required this.photoUrl,
+        required this.email,
+        required this.bio,
+        required this.followers,
+        required this.following,required this.isOnline,required this.phoneNumber,required this.groupId});
 
   static UserModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return UserModel(
-        username: snapshot["username"],
-        uid: snapshot["uid"],
-        email: snapshot["email"],
-        photoUrl: snapshot["photoUrl"],
-        bio: snapshot["bio"],
-        isOnline: snapshot["isOnline"],
-        phoneNumber: snapshot["phoneNumber"],
-        followers: snapshot["followers"],
-        following: snapshot["following"],
-        groupId: snapshot["groupId"]);
+      username: snapshot["username"],
+      uid: snapshot["uid"],
+      email: snapshot["email"],
+      photoUrl: snapshot["photoUrl"],
+      bio: snapshot["bio"],
+      isOnline: snapshot["isOnline"],
+      phoneNumber: snapshot["phoneNumber"],
+      followers: snapshot["followers"],
+      following: snapshot["following"],
+      groupId: snapshot["groupId"]
+    );
   }
 
   Map<String, dynamic> toJson() => {
-        "username": username,
-        "uid": uid,
-        "email": email,
-        "photoUrl": photoUrl,
-        "bio": bio,
-        "followers": followers,
-        "following": following,
-        "groupId": groupId,
-        "isOnline": isOnline,
-        "phoneNumber": phoneNumber
-      };
+    "username": username,
+    "uid": uid,
+    "email": email,
+    "photoUrl": photoUrl,
+    "bio": bio,
+    "followers": followers,
+    "following": following,
+    "groupId": groupId,
+    "isOnline": isOnline,
+    "phoneNumber": phoneNumber
+  };
 }
