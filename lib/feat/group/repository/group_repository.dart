@@ -82,6 +82,28 @@ class GroupRepository {
       await firestore
           .collection("users")
           .doc('$senderId/chats/$receiverId')
+          .collection('messages')
+          .get()
+          .then((value) => value.docs.forEach((element) {
+                firestore
+                    .collection("users")
+                    .doc('$senderId/chats/$receiverId/messages/${element.id}')
+                    .delete();
+              }));
+      await firestore
+          .collection("users")
+          .doc('$receiverId/chats/$senderId')
+          .collection('messages')
+          .get()
+          .then((value) => value.docs.forEach((element) {
+                firestore
+                    .collection("users")
+                    .doc('$receiverId/chats/$senderId/messages/${element.id}')
+                    .delete();
+              }));
+      await firestore
+          .collection("users")
+          .doc('$senderId/chats/$receiverId')
           .delete();
       await firestore
           .collection("users")
