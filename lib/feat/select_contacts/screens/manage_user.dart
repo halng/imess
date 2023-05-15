@@ -29,7 +29,7 @@ class _ManageUserScreen extends ConsumerState<ManageUserScreen> {
           widget.groupId,
           ref.read(selectedGroupContacts),
         );
-    ref.read(selectedGroupContacts.notifier).update((state) => []);
+    //ref.read(selectedGroupContacts.notifier).update((state) => []);
     Navigator.pop(context);
   }
 
