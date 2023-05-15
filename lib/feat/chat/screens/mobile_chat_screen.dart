@@ -8,7 +8,6 @@ import 'package:imess/feat/call/controller/call_controller.dart';
 import 'package:imess/feat/call/screens/call_pickup_screen.dart';
 import 'package:imess/feat/chat/widgets/bottom_chat_field.dart';
 import 'package:imess/feat/group/controller/group_controller.dart';
-import 'package:imess/feat/group/widgets/select_contacts_group.dart';
 import 'package:imess/feat/select_contacts/screens/manage_user.dart';
 import 'package:imess/models/user_model.dart';
 import 'package:imess/feat/chat/widgets/chat_list.dart';
@@ -103,10 +102,11 @@ class MobileChatScreen extends ConsumerWidget {
                                 )),
                         PopupMenuItem(
                             child: const Text(
-                              'Del Chat',
+                              'Del Group',
                             ),
                             onTap: () {
                               delChat(ref, context, isGroupChat, uid);
+                              Navigator.pop(context);
                             })
                       ]
                     : [
@@ -116,6 +116,7 @@ class MobileChatScreen extends ConsumerWidget {
                             ),
                             onTap: () {
                               delChat(ref, context, isGroupChat, uid);
+                              Navigator.pop(context);
                             })
                       ]),
           ],
