@@ -7,6 +7,7 @@ import 'package:imess/feat/chat/controller/chat_controller.dart';
 import 'package:imess/feat/chat/screens/mobile_chat_screen.dart';
 import 'package:imess/models/chat_contact.dart';
 import 'package:imess/models/group.dart';
+import 'package:imess/common/utils/helper.dart';
 
 class ContactsList extends ConsumerWidget {
   const ContactsList({Key? key}) : super(key: key);
@@ -69,7 +70,7 @@ class ContactsList extends ConsumerWidget {
                                   radius: 30,
                                 ),
                                 trailing: Text(
-                                  DateFormat.Hm().format(groupData.timeSent),
+                                  readTimestamp(groupData.timeSent),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 13,
@@ -135,8 +136,7 @@ class ContactsList extends ConsumerWidget {
                                   radius: 30,
                                 ),
                                 trailing: Text(
-                                  DateFormat.Hm()
-                                      .format(chatContactData.timeSent),
+                                  readTimestamp(chatContactData.timeSent),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 13,
