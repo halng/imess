@@ -20,12 +20,16 @@ class DisplayTextImageGIF extends StatelessWidget {
     final AudioPlayer audioPlayer = AudioPlayer();
 
     return type == MessageEnum.text
-        ? Text(
-            message,
-            style: const TextStyle(
-              fontSize: 16,
+        ? ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: 60.0,
             ),
-          )
+            child: Text(
+              message,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ))
         : type == MessageEnum.audio
             ? StatefulBuilder(builder: (context, setState) {
                 return IconButton(

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 void showSnackBar({required BuildContext context, required String content}) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -61,4 +62,33 @@ pickImage(ImageSource source) async {
     return await _file.readAsBytes();
   }
   print('No Image Selected');
+}
+
+String readTimestamp(DateTime timestamp) {
+  var now = DateTime.now();
+  var format = DateFormat('HH:mm a');
+  var date = timestamp;
+  var diff = now.difference(date);
+  var time = '';
+
+  if (diff.inSeconds <= 0 ||
+      diff.inSeconds > 0 && diff.inMinutes == 0 ||
+      diff.inMinutes > 0 && diff.inHours == 0 ||
+      diff.inHours > 0 && diff.inDays == 0) {
+    time = format.format(date);
+  } else if (diff.inDays > 0 && diff.inDays < 7) {
+    if (diff.inDays == 1) {
+      time = diff.inDays.toString() + ' day ago';
+    } else {
+      time = diff.inDays.toString() + ' days ago';
+    }
+  } else {
+    if (diff.inDays == 7) {
+      time = (diff.inDays / 7).floor().toString() + ' week ago';
+    } else {
+      time = (diff.inDays / 7).floor().toString() + ' weeks ago';
+    }
+  }
+
+  return time;
 }

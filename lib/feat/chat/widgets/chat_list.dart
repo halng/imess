@@ -11,6 +11,7 @@ import 'package:imess/feat/chat/controller/chat_controller.dart';
 import 'package:imess/feat/chat/widgets/my_message_card.dart';
 import 'package:imess/feat/chat/widgets/sender_message_card.dart';
 import 'package:imess/models/message.dart';
+import 'package:imess/common/utils/helper.dart';
 
 class ChatList extends ConsumerStatefulWidget {
   final String recieverUserId;
@@ -73,7 +74,7 @@ class _ChatListState extends ConsumerState<ChatList> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final messageData = snapshot.data![index];
-              var timeSent = DateFormat.Hm().format(messageData.timeSent);
+              var timeSent = readTimestamp(messageData.timeSent);
 
               if (!messageData.isSeen &&
                   messageData.recieverId ==
