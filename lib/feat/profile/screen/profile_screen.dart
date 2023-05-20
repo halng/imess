@@ -27,7 +27,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool isFollowing = false;
   bool isLoading = false;
   bool isEdit = false;
-  
+
   @override
   void initState() {
     super.initState();
