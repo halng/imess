@@ -47,10 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     'username',
                     isGreaterThanOrEqualTo: searchController.text,
                   )
-                  .where(
-                    'username',
-                    isLessThan: searchController.text + 'z'
-                  )
+                  .where('username', isLessThan: searchController.text + 'z')
                   .get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
